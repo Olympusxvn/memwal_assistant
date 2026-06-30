@@ -1,4 +1,7 @@
 /**
+ * DEPRECATED — community @memwalpp/mcp runner (remember/sync/verify, 10 tools).
+ * Use official MCP instead: cd official-memwal && npm run demo
+ *
  * Session 5 DEMO_SCRIPT runner — 10 remembers + 2 saveArtifacts → sync → verify sample.
  * Run from memwal-agent-memory (has @modelcontextprotocol/sdk):
  *
@@ -100,7 +103,7 @@ const env = {
   MEMWAL_PRIVATE_KEY: requireEnv("MEMWAL_PRIVATE_KEY"),
   MEMWAL_ACCOUNT_ID:
     process.env.MEMWAL_ACCOUNT_ID?.trim() ||
-    "0x73b07979a6712f54283c02ddf70e2bdfb3ec729627c9ef0e0d8a214015066a99",
+    "0xe969b46dbf2d66b9fb6a3a0586f02b8e5a8ba42ebcc22407023953fb843984c6",
   MEMWAL_SERVER_URL: process.env.MEMWAL_SERVER_URL?.trim() || "https://relayer.memory.walrus.xyz",
   MEMWAL_NAMESPACE: "session5-architect",
   MEMWAL_MCP_DATA_DIR: dataDir,

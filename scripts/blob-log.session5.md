@@ -2,8 +2,10 @@
 
 **Date run:** 2026-06-30  
 **Namespace:** `session5-architect`  
-**MemWal account ID:** `0x73b07979a6712f54283c02ddf70e2bdfb3ec729627c9ef0e0d8a214015066a99`  
-**Runner:** `node scripts/run-demo-session5.mjs` (from memwal-agent-memory root)
+**MemWal account ID:** `0xe969b46dbf2d66b9fb6a3a0586f02b8e5a8ba42ebcc22407023953fb843984c6`  
+**Runner:** `node scripts/run-demo-session5.mjs` (legacy `@memwalpp/mcp`)
+
+> **Note:** The 12-blob run below used the **previous** account with community MCP. Current Session wallet (Edge login) is the account ID above — re-run captures with `@mysten-incubation/memwal-mcp` + `memwal_remember` for fresh Mainnet proof.
 
 ---
 
@@ -44,7 +46,7 @@ Machine-readable log: [blob-log.session5.json](./blob-log.session5.json) (gitign
 ## DeepSurge form
 
 - **Project name:** MemWal Architect Assistant  
-- **Agent ID:** `0x73b07979a6712f54283c02ddf70e2bdfb3ec729627c9ef0e0d8a214015066a99`  
+- **Agent ID:** `0xe969b46dbf2d66b9fb6a3a0586f02b8e5a8ba42ebcc22407023953fb843984c6`  
 - **Blob count:** 12  
 - **GitHub:** https://github.com/Olympusxvn/memwal_assistant (private)
 

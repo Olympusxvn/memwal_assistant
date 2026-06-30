@@ -1,27 +1,28 @@
 ---
-description: MemWal Architect Assistant — capture and retrieve architecture decisions via MCP (Session 5).
+description: MemWal Architect Assistant — official Walrus Memory MCP (Session 5).
 alwaysApply: true
 ---
 
 # MemWal Architect Assistant
 
-When **memwal-agent-memory** MCP is connected, follow [PROMPT.md](../PROMPT.md) in this repo.
+When MCP server **`memwal`** is connected (Settings → MCP → green, 5 tools), follow [PROMPT.md](../PROMPT.md).
 
 ## Triggers
 
 | User says | Action |
 |-----------|--------|
-| `decision: …` | `remember` with structured markdown + metadata `type=decision` |
-| `artifact: …` | `saveArtifact` (markdown, `promote: local` until sync) |
-| `recall decisions about …` | `recall` + `search` |
-| `sync decisions` | `getStats` then `sync` |
-| `verify last decision` | `verify` with last `memoryId` |
-| `resume architecture` | `recall` recent decisions (limit 3) |
+| `decision: …` | `memwal_remember` — structured markdown in `text` |
+| `artifact: …` | `memwal_remember` — full ADR body in `text` |
+| `recall decisions about …` | `memwal_recall` |
+| `sync decisions` | Explain Walrus auto-promote on remember; offer `memwal_recall` or `memwal_restore` |
+| `verify last decision` | `memwal_recall` + Suiscan; no verify tool in official MCP |
+| `resume architecture` | `memwal_recall` recent topic |
+| not signed in | `memwal_login` (Edge browser OK) |
 
 ## Namespace
 
-Use MCP env namespace **`session5-architect`**. Never store secrets.
+**`session5-architect`** (from MCP config). Never store secrets.
 
 ## Full rules
 
-See [PROMPT.md](../PROMPT.md) for schemas, examples, and out-of-scope items.
+See [PROMPT.md](../PROMPT.md). Tool schemas: [official-memwal/TOOLS.md](../official-memwal/TOOLS.md).

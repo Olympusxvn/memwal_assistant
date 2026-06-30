@@ -1,31 +1,55 @@
 # MemWal Architect Assistant
 
-**Walrus Session 5 · Prompt Jam** — a copy-paste **system prompt** plus setup kit for capturing and retrieving **architectural decisions** with [`@memwalpp/mcp`](https://www.npmjs.com/package/@memwalpp/mcp) and **Walrus Mainnet** durable memory.
+**Walrus Session 5 · Prompt Jam** — system prompt + setup kit for capturing and retrieving **architecture decisions** on **Walrus Mainnet** via Mysten’s official MCP.
 
 | | |
 |---|---|
-| **Problem** | Architecture decisions get lost between Cursor sessions; teams repeat debates or contradict past choices. |
-| **Solution** | Structured triggers (`decision:`, `artifact:`) → MCP tools → local SQLite → **sync to Walrus** → verify & recall on any machine. |
-| **MCP package** | `@memwalpp/mcp@0.1.1` (10 tools) |
+| **Problem** | ADRs and trade-offs live in chat history and vanish between sessions. |
+| **Solution** | `decision:` / `artifact:` → **`memwal_remember`** → Walrus Mainnet → **`memwal_recall`** in any new chat. |
+| **MCP** | [`@mysten-incubation/memwal-mcp@0.0.5`](https://www.npmjs.com/package/@mysten-incubation/memwal-mcp) — Cursor server **`memwal`** (5 tools) |
 | **Namespace** | `session5-architect` |
-| **MemWal account (Mainnet)** | [`0x73b07979a6712f54283c02ddf70e2bdfb3ec729627c9ef0e0d8a214015066a99`](https://suiscan.xyz/mainnet/object/0x73b07979a6712f54283c02ddf70e2bdfb3ec729627c9ef0e0d8a214015066a99) |
+| **MemWal account** | [`0xe969b46dbf2d66b9fb6a3a0586f02b8e5a8ba42ebcc22407023953fb843984c6`](https://suiscan.xyz/mainnet/object/0xe969b46dbf2d66b9fb6a3a0586f02b8e5a8ba42ebcc22407023953fb843984c6) |
+
+---
+
+## How it uses Walrus
+
+1. **Structured capture** — ADR markdown via `memwal_remember`.
+2. **Durable by default** — relayer async job → **Walrus Mainnet** (no sync tool).
+3. **Cross-session recall** — `memwal_recall` by topic.
+4. **Recovery** — `memwal_restore` re-indexes from Walrus blobs.
+5. **Bulk extract** — `memwal_analyze` from long design docs.
+
+Auth: `memwal_login` or `npx -y @mysten-incubation/memwal-mcp login` (Edge OK). Credentials: `~/.memwal/credentials.json` — never commit.
 
 ---
 
 ## Quick start
 
-1. **[SETUP.md](./SETUP.md)** — Cursor MCP + Mainnet `MEMWAL_*` env (delegate key only).
-2. Copy **[PROMPT.md](./PROMPT.md)** into Cursor chat or add **[`.cursor/rules/architect-memory.mdc`](./.cursor/rules/architect-memory.mdc)** to your project.
-3. Run **[DEMO_SCRIPT.md](./DEMO_SCRIPT.md)** — 10+ Mainnet blobs for submission proof.
-4. Follow **[SUBMISSION.md](./SUBMISSION.md)** — DeepSurge, video, `#Walrus` post.
+```bash
+npx -y @mysten-incubation/memwal-mcp login
+# copy .cursor/mcp.json.example → .cursor/mcp.json, restart Cursor
+cd official-memwal && npm install && npm run demo
+```
+
+| Doc | Purpose |
+|-----|---------|
+| [PROMPT.md](./PROMPT.md) | **Submit this** system prompt |
+| [SETUP.md](./SETUP.md) | Install + MCP troubleshooting |
+| [DEMO_SCRIPT.md](./DEMO_SCRIPT.md) | ≥10 blob walkthrough |
+| [SUBMISSION.md](./SUBMISSION.md) | DeepSurge checklist |
+| [DEMO_VIDEO.md](./DEMO_VIDEO.md) | 3-minute storyboard |
+| [official-memwal/](./official-memwal/) | Tool schemas, smoke/demo scripts |
+
+Enable rule: [`.cursor/rules/architect-memory.mdc`](./.cursor/rules/architect-memory.mdc)
 
 ---
 
-## What judges see
+## MCP in Cursor
 
-- **One well-crafted prompt** — not a tool dump; solves a recurring dev-team pain.
-- **Walrus Memory used thoughtfully** — structured remember/saveArtifact, batch sync, verify, lineage/history when IDs exist.
-- **Mainnet proof** — ≥10 blobs under namespace `session5-architect`, agent account ID above.
+Settings → MCP → **`memwal`** → green, **5 tools**: `memwal_remember`, `memwal_recall`, `memwal_analyze`, `memwal_restore`, `memwal_login`.
+
+Template: [`.cursor/mcp.json.example`](./.cursor/mcp.json.example)
 
 ---
 
@@ -33,27 +57,26 @@
 
 ```
 memwal_assistant/
-├── PROMPT.md              ← full system prompt (submit this text)
-├── SETUP.md               ← MCP + Mainnet env
-├── DEMO_SCRIPT.md         ← 10+ blob walkthrough
-├── DEMO_VIDEO.md          ← 3-minute storyboard
-├── SUBMISSION.md          ← Session 5 checklist
-├── .cursor/
-│   ├── mcp.json           ← npx @memwalpp/mcp profile
-│   └── rules/architect-memory.mdc
+├── PROMPT.md              ← submit-ready system prompt
+├── DEMO_SCRIPT.md         ← 10+ Mainnet blob demo
+├── official-memwal/       ← MCP tools, smoke + demo runners
+├── SETUP.md · SUBMISSION.md · DEMO_VIDEO.md
+├── .cursor/mcp.json.example · rules/architect-memory.mdc
 └── scripts/blob-log.template.md
 ```
 
+Legacy community MCP runner (deprecated): `scripts/run-demo-session5.mjs`
+
 ---
 
-## Related projects
+## Links
 
-- **MCP server source / monorepo:** [memwal-agent-memory](https://github.com/Olympusxvn/memwal-agent-memory)
-- **Session rules:** [Walrus Memory Prompt Jam](https://thewalrussessions.wal.app/prompt-jam/index.html)
-- **MemWal feedback:** [github.com/MystenLabs/MemWal](https://github.com/MystenLabs/MemWal)
+- Official MCP: https://www.npmjs.com/package/@mysten-incubation/memwal-mcp
+- MemWal: https://github.com/MystenLabs/MemWal
+- Prompt Jam: https://thewalrussessions.wal.app/prompt-jam/index.html
 
 ---
 
 ## License
 
-Apache-2.0 — see [LICENSE](./LICENSE).
+Apache-2.0 — [LICENSE](./LICENSE)

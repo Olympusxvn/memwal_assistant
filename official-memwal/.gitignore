@@ -1,0 +1,2 @@
+official-memwal/test-output/*.json
+!official-memwal/test-output/.gitkeep

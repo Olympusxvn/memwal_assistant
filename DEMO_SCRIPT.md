@@ -1,95 +1,113 @@
-# Demo script — 10+ Mainnet blobs
+# Demo script — 10+ Mainnet blobs (official MCP)
 
 **Goal:** Walrus Session 5 requires **≥10 blobs on Mainnet** under your agent.  
+**MCP:** `@mysten-incubation/memwal-mcp@0.0.5` — server **`memwal`**, **5 tools**  
 **Namespace:** `session5-architect`  
-**Account ID (proof):** `0x73b07979a6712f54283c02ddf70e2bdfb3ec729627c9ef0e0d8a214015066a99`
+**Account ID:** `0xe969b46dbf2d66b9fb6a3a0586f02b8e5a8ba42ebcc22407023953fb843984c6`
 
-Complete [SETUP.md](./SETUP.md) first. Log results in [scripts/blob-log.template.md](./scripts/blob-log.template.md).
+Complete [SETUP.md](./SETUP.md) first (MCP green + login). Log results in [scripts/blob-log.template.md](./scripts/blob-log.template.md).
 
 ---
 
-## Phase 1 — Local captures (10 writes)
+## Phase 1 — Capture (≥10 `memwal_remember`)
 
-Paste each block into Cursor chat **one at a time**. Wait for MCP `remember` / `saveArtifact` success before the next.
+Paste each block into Cursor chat **one at a time**. Wait for `memwal_remember` success before the next.
 
 | # | User message | Tool | Done |
 |---|--------------|------|------|
-| 1 | `decision: Walrus is the durable layer for all Session 5 architecture artifacts. Context: infrastructure/storage. Rationale: Verifiable blobs, low cost, aligns with MemWal hybrid model.` | remember | ☐ |
-| 2 | `decision: Use namespace session5-architect for all Session 5 memories. Context: mcp/env. Rationale: Isolates demo blobs from other projects.` | remember | ☐ |
-| 3 | `artifact: Microservices map for AI agent platform`<br><br>Body: Gateway, Memory (MCP), Orchestrator, Verifier, Storage (Walrus). Five services; MCP exposes remember/recall/sync to IDE. | saveArtifact | ☐ |
-| 4 | `decision: Cursor-first delivery via npx @memwalpp/mcp before monorepo clone. Context: developer-onboarding. Rationale: Prompt Jam submitters need ≤5 minute install.` | remember | ☐ |
-| 5 | `decision: Repository Pattern for all data access in backend services. Context: backend/. Rationale: Testability and separation from business logic.` | remember | ☐ |
-| 6 | `decision: Hybrid recall — local SQLite first, durable hydrate on forceDurable or thin local index. Context: packages/core sync. Rationale: Sub-10ms local path; Walrus for portability.` | remember | ☐ |
-| 7 | `artifact: June MCP performance notes`<br><br>Metrics: demo session; track remember/sync/verify latencies; target &lt;200ms local recall. | saveArtifact | ☐ |
-| 8 | `decision: redactForUpstream runs before every Walrus promote. Context: privacy. Rationale: PII must not reach MemWal relayer even after local store.` | remember | ☐ |
-| 9 | `decision: saveArtifact for ADRs; remember for short decisions. Context: prompt-design. Rationale: Keeps recall precise and artifacts structured.` | remember | ☐ |
-| 10 | `decision: verify uses memoryId or proof JSON, not raw blob id alone. Context: mcp/tools. Rationale: Matches @memwalpp/mcp v1 verify schema.` | remember | ☐ |
+| 1 | `decision: Walrus is the durable layer for all Session 5 architecture artifacts. Context: infrastructure/storage. Rationale: Verifiable Mainnet blobs, low cost, aligns with MemWal hybrid model.` | memwal_remember | ☐ |
+| 2 | `decision: Use namespace session5-architect for all Session 5 memories. Context: mcp/env. Rationale: Isolates demo blobs from other projects.` | memwal_remember | ☐ |
+| 3 | `artifact: Microservices map for AI agent platform`<br><br>Body: Gateway, Memory (MCP), Orchestrator, Verifier, Storage (Walrus). Five services; MCP exposes memwal_remember/recall to IDE. | memwal_remember | ☐ |
+| 4 | `decision: Cursor-first delivery via official @mysten-incubation/memwal-mcp. Context: developer-onboarding. Rationale: Session 5 requires Mysten official MCP package.` | memwal_remember | ☐ |
+| 5 | `decision: Repository Pattern for all data access in backend services. Context: backend/. Rationale: Testability and separation from business logic.` | memwal_remember | ☐ |
+| 6 | `decision: memwal_recall for topic search; memwal_restore when Walrus index is stale. Context: packages/core. Rationale: Durable source of truth with relayer index.` | memwal_remember | ☐ |
+| 7 | `artifact: June MCP performance notes`<br><br>Metrics: demo session; track memwal_remember/recall latencies; target fast local recall after index warm-up. | memwal_remember | ☐ |
+| 8 | `decision: Structured markdown ADR template for every memwal_remember call. Context: prompt-design. Rationale: Consistent recall and readable history.` | memwal_remember | ☐ |
+| 9 | `decision: Browser login via Edge for MemWal delegate key. Context: setup. Rationale: No private keys in repo; credentials in ~/.memwal/credentials.json.` | memwal_remember | ☐ |
+| 10 | `decision: Session 5 submission uses single system prompt Architect Assistant. Context: prompt-jam. Rationale: Judges score one well-crafted prompt.` | memwal_remember | ☐ |
 
-**Optional extras (if sync skips low-quality rows):**
+**Optional extras:**
 
-| 11 | `decision: Session 5 submission uses single system prompt Architect Assistant not twelve separate products. Context: prompt-jam. Rationale: Judges score one well-crafted prompt.` | remember | ☐ |
-| 12 | `artifact: Agent trace — demo session`<br><br>Steps: receive decision → remember → sync → verify → recall in new chat. | saveArtifact | ☐ |
+| 11 | `decision: memwal_analyze for bulk ADR extraction from long design docs. Context: prompt-design. Rationale: Multiple Walrus blobs from one paste.` | memwal_remember | ☐ |
+| 12 | `artifact: Agent trace — demo session`<br><br>Steps: decision → memwal_remember → memwal_recall → new chat recall. | memwal_remember | ☐ |
+
+**Optional — bulk via analyze (counts as multiple blobs):**
+
+```
+Phân tích và lưu architecture decisions từ đoạn sau:
+
+Gateway routes to MCP memwal. Orchestrator runs agents. Storage is Walrus Mainnet.
+Namespace session5-architect. Auth is browser wallet delegate. Recall is memwal_recall.
+```
+
+→ `memwal_analyze`
 
 ---
 
-## Phase 2 — Sync to Mainnet
+## Phase 2 — Walrus confirmation (no sync tool)
+
+Wait **~5–15 seconds** after last remember (relayer async job).
 
 In chat:
 
 ```
-sync decisions
+recall decisions about Walrus durable layer
 ```
 
 **Pass criteria:**
 
-- `durableLive: true`
-- `metrics.pushed >= 10` (or run sync twice after adding optional rows)
-- Note any `metrics.skipped` — expand content length if quality gate rejects rows
+- At least one hit from row #1
+- Repeat recall for rows #5, #6 if time permits
 
-Optional full pull:
+If empty:
 
 ```
-sync decisions with forceDurable true
+restore architecture memory
 ```
 
-(Agent should call `sync` with `"forceDurable": true`.)
+Then retry recall.
 
 ---
 
-## Phase 3 — Verify & read-back
+## Phase 3 — Cross-session recall
+
+**Open new Cursor chat** (proves Walrus continuity):
+
+```
+recall decisions about Walrus durable layer
+```
 
 | Step | User message | Expected |
 |------|--------------|----------|
-| V1 | `verify last decision` | `valid: true`, `walrusBlobId` present |
-| V2 | `recall decisions about Walrus durable layer` | Hit from row #1 |
-| V3 | `recall decisions about Repository Pattern` | Hit from row #5 |
-| V4 | `search hybrid recall local SQLite` | Semantic hit row #6 |
-| V5 | Pick one `memoryId` from recall → `show version history for <memoryId>` | getVersionHistory returns timeline |
-| V6 | Same id → `show lineage for <memoryId>` | getLineage metadata graph |
+| V1 | `recall decisions about Walrus durable layer` | Hit from row #1 |
+| V2 | `recall decisions about Repository Pattern` | Hit from row #5 |
+| V3 | `recall decisions about official memwal-mcp` | Hit from row #4 |
+| V4 | New chat → `resume architecture` | Up to 3 recent hits |
 
 ---
 
-## Automated runner (optional)
-
-From `memwal-agent-memory` root (after setting `MEMWAL_PRIVATE_KEY` in env):
+## Phase 4 — Automated runner (optional)
 
 ```bash
-node scripts/run-demo-session5.mjs
+cd official-memwal
+npm install
+npm run smoke          # remember + recall + analyze
+npm run demo           # 10× memwal_remember + recall samples
 ```
-
-Log written to `scripts/blob-log.session5.json` and [blob-log.session5.md](./scripts/blob-log.session5.md).
 
 ---
 
-## Phase 4 — Log proof for DeepSurge
+## Phase 5 — Log proof for DeepSurge
 
-Fill [scripts/blob-log.template.md](./scripts/blob-log.template.md) or use completed [blob-log.session5.md](./scripts/blob-log.session5.md):
+Fill [scripts/blob-log.template.md](./scripts/blob-log.template.md):
 
 - Agent / account ID
-- Namespace
-- Blob count (from sync + verify outputs)
-- 3 sample `walrusBlobId` values
+- Namespace `session5-architect`
+- Blob count (successful remember + analyze calls)
 - Date run
+- MCP: `@mysten-incubation/memwal-mcp@0.0.5`
+
+Suiscan: https://suiscan.xyz/mainnet/object/0xe969b46dbf2d66b9fb6a3a0586f02b8e5a8ba42ebcc22407023953fb843984c6
 
 ---
 
@@ -97,8 +115,7 @@ Fill [scripts/blob-log.template.md](./scripts/blob-log.template.md) or use compl
 
 | Symptom | Fix |
 |---------|-----|
-| MCP not connected | Restart Cursor; check `npx @memwalpp/mcp` in mcp.json |
-| `durableLive: false` | Set `MEMWAL_*` env in mcp.json |
-| `metrics.pushed: 0`, all skipped | Remove `promote: local` on remember; use `promote: auto` or `walrus`, or clear data dir and re-run |
-| Recall empty after remember | Normal 5–15s async on relayer; retry recall or use local query first |
-| verify fails | Use `memoryId` from same session’s remember output |
+| MCP not connected | Copy `.cursor/mcp.json.example` → `.cursor/mcp.json`; restart Cursor; look for **`memwal`** (5 tools) |
+| Auth error | `npx -y @mysten-incubation/memwal-mcp login` or `memwal_login` in chat |
+| Recall empty after remember | Wait 15s; `memwal_restore`; retry recall |
+| Old plugin visible | Disable **`memwal-agent-memory`** plugin (community 10-tool MCP) |

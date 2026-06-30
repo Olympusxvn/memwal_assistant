@@ -1,0 +1,17 @@
+{
+  "name": "memwal-official-smoke",
+  "private": true,
+  "type": "module",
+  "description": "Smoke tests for @mysten-incubation/memwal-mcp",
+  "scripts": {
+    "smoke": "node scripts/smoke-test.mjs",
+    "tools": "node scripts/smoke-test.mjs --list-only",
+    "login:chrome": "node scripts/login-chrome.mjs",
+    "demo": "node scripts/run-demo-official.mjs"
+  },
+  "dependencies": {
+    "@mysten-incubation/memwal-mcp": "0.0.5",
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "open": "^10.1.0"
+  }
+}

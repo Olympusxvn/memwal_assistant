@@ -1,8 +1,16 @@
 # Secrets — do not commit
 .cursor/mcp.json
 
+# Template (commit this, copy to mcp.json)
+!.cursor/mcp.json.example
+
 # Demo output (may contain record ids)
 scripts/blob-log.session5.json
+
+# Official MCP smoke output (regenerated)
+official-memwal/test-output/*.json
+!official-memwal/test-output/.gitkeep
+official-memwal/node_modules/
 
 # Copy delegate key into `.cursor/mcp.json` locally only:
 
