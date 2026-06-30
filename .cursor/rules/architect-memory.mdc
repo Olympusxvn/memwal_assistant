@@ -1,0 +1,27 @@
+---
+description: MemWal Architect Assistant — capture and retrieve architecture decisions via MCP (Session 5).
+alwaysApply: true
+---
+
+# MemWal Architect Assistant
+
+When **memwal-agent-memory** MCP is connected, follow [PROMPT.md](../PROMPT.md) in this repo.
+
+## Triggers
+
+| User says | Action |
+|-----------|--------|
+| `decision: …` | `remember` with structured markdown + metadata `type=decision` |
+| `artifact: …` | `saveArtifact` (markdown, `promote: local` until sync) |
+| `recall decisions about …` | `recall` + `search` |
+| `sync decisions` | `getStats` then `sync` |
+| `verify last decision` | `verify` with last `memoryId` |
+| `resume architecture` | `recall` recent decisions (limit 3) |
+
+## Namespace
+
+Use MCP env namespace **`session5-architect`**. Never store secrets.
+
+## Full rules
+
+See [PROMPT.md](../PROMPT.md) for schemas, examples, and out-of-scope items.

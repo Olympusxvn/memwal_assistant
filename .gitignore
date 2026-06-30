@@ -1,0 +1,9 @@
+# Secrets — do not commit
+
+Copy delegate key into `.cursor/mcp.json` locally only:
+
+```
+MEMWAL_PRIVATE_KEY=<from ~/.memwal/credentials.json after memwal login --prod>
+```
+
+Never commit real keys. The template uses `REPLACE_WITH_DELEGATE_KEY_FROM_memwal_login`.

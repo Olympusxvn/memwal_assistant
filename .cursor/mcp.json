@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "memwal-agent-memory": {
+      "command": "npx",
+      "args": ["-y", "@memwalpp/mcp@0.1.1", "--transport", "stdio"],
+      "env": {
+        "MEMWAL_NAMESPACE": "session5-architect",
+        "MEMWAL_MCP_DATA_DIR": "${userHome}/.memwal-agent-memory/session5-architect",
+        "MEMWAL_RECALL_FTS": "1",
+        "MEMWAL_SERVER_URL": "https://relayer.memory.walrus.xyz",
+        "MEMWAL_ACCOUNT_ID": "0x73b07979a6712f54283c02ddf70e2bdfb3ec729627c9ef0e0d8a214015066a99",
+        "MEMWAL_PRIVATE_KEY": "REPLACE_WITH_DELEGATE_KEY_FROM_memwal_login"
+      }
+    }
+  }
+}
