@@ -64,11 +64,11 @@ When the user says **`artifact: <title>`** with body text or asks for an ADR / d
   "name": "<slug-from-title>",
   "mime": "text/markdown",
   "content": "<markdown body>",
-  "promote": "local"
+  "promote": "auto"
 }
 ```
 
-Use `promote: "local"` until the user says **`sync decisions`**. For ADRs linked to a decision, mention the decision topic in the artifact body.
+Use `promote: "auto"` on capture (default). Call **`sync`** when the user asks to persist — do not set `promote: "local"` on remember, or sync will skip those rows.
 
 ### Retrieve — `recall` and `search`
 

@@ -69,9 +69,21 @@ sync decisions with forceDurable true
 
 ---
 
+## Automated runner (optional)
+
+From `memwal-agent-memory` root (after setting `MEMWAL_PRIVATE_KEY` in env):
+
+```bash
+node scripts/run-demo-session5.mjs
+```
+
+Log written to `scripts/blob-log.session5.json` and [blob-log.session5.md](./scripts/blob-log.session5.md).
+
+---
+
 ## Phase 4 — Log proof for DeepSurge
 
-Fill [scripts/blob-log.template.md](./scripts/blob-log.template.md) with:
+Fill [scripts/blob-log.template.md](./scripts/blob-log.template.md) or use completed [blob-log.session5.md](./scripts/blob-log.session5.md):
 
 - Agent / account ID
 - Namespace
@@ -87,6 +99,6 @@ Fill [scripts/blob-log.template.md](./scripts/blob-log.template.md) with:
 |---------|-----|
 | MCP not connected | Restart Cursor; check `npx @memwalpp/mcp` in mcp.json |
 | `durableLive: false` | Set `MEMWAL_*` env in mcp.json |
-| `metrics.pushed: 0`, all skipped | Lengthen decision text; check quality gate |
+| `metrics.pushed: 0`, all skipped | Remove `promote: local` on remember; use `promote: auto` or `walrus`, or clear data dir and re-run |
 | Recall empty after remember | Normal 5–15s async on relayer; retry recall or use local query first |
 | verify fails | Use `memoryId` from same session’s remember output |

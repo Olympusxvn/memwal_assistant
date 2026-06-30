@@ -1,6 +1,10 @@
 # Secrets — do not commit
+.cursor/mcp.json
 
-Copy delegate key into `.cursor/mcp.json` locally only:
+# Demo output (may contain record ids)
+scripts/blob-log.session5.json
+
+# Copy delegate key into `.cursor/mcp.json` locally only:
 
 ```
 MEMWAL_PRIVATE_KEY=<from ~/.memwal/credentials.json after memwal login --prod>
