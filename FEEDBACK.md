@@ -53,28 +53,42 @@
 
 ## Setup feedback — Slush zkLogin vs Unlock wallet
 
+**Issue:** [MystenLabs/sui#27109](https://github.com/MystenLabs/sui/issues/27109)  
+**Slush extension:** **26.15.0** `[release]`  
 **Observed (2026-06-30):** During MemWal browser login, user repeatedly entered the same password on Slush **Unlock wallet** and always got “wrong password.” Screen recording showed a single unlock field (not confirm-password).
 
-**Root cause:** Session wallet was created with **zkLogin (Google)**, not a 12-word seed phrase. zkLogin wallets **do not set a local Slush password** — there is nothing to unlock with a password field.
+**Root cause:** Session wallet was created with **zkLogin (Google)** — **no Slush local password was ever created**. Re-auth is OAuth (Google), not a vault password. **Unlock wallet** is a dead end for this account type ([DrVelvetFog](https://github.com/MystenLabs/sui/issues/27109#issuecomment-4868012986)).
 
-**What works:**
+**Workaround (confirmed):** **Sign in with Google** in Slush extension first → **skip Unlock wallet** → complete MemWal connect URL. Do not create or enter a Slush password.
 
+| Wallet type | Open Slush | Do not use |
+|-------------|------------|------------|
+| **zkLogin (Google)** | **Sign in with Google** (same account as creation) | Unlock wallet + password |
+| **Seed phrase import** | Password set at import time | Google sign-in (unless also linked) |
 
-| Wallet type                           | Open Slush                                         | Do not use                          |
-| ------------------------------------- | -------------------------------------------------- | ----------------------------------- |
-| **zkLogin (Google / Apple / Twitch)** | **Sign in with Google** (same account as creation) | Unlock wallet + password            |
-| **Seed phrase import**                | Password set at import time                        | Google sign-in (unless also linked) |
+### MemWal login flow (for Slush / Sui team)
 
+Path from **Cursor IDE** → **Walrus Memory** credentials. Slush is only the wallet sign-in at step 4.
 
-**MemWal login flow (official MCP):**
+1. **MCP in Cursor** — `@mysten-incubation/memwal-mcp@0.0.5`, namespace `session5-architect`, 5 tools (`memwal_remember`, `memwal_recall`, `memwal_analyze`, `memwal_restore`, `memwal_login`).
+2. **`memwal_login`** — MCP generates a **delegate keypair**, opens `https://memory.walrus.xyz/connect/mcp?port=…&publicKey=…&delegateAddress=…`.
+3. **Connect page** — user clicks **Connect Sui Wallet** → **Slush**.
+4. **Slush (friction point)** — user must approve **`add_delegate_key`** on Sui Mainnet. For zkLogin: sign in via **Google first** (extension UI), then approve tx. dApp-triggered popup often shows **Unlock wallet** instead → “wrong password” loop.
+5. **Connected** — MCP writes `~/.memwal/credentials.json`; user **fully quits Cursor** and reopens.
+6. **After auth** — `memwal_remember` → relayer → **Walrus Mainnet** blob (async); `memwal_recall` searches namespace.
 
-1. `memwal_login` or `npx -y @mysten-incubation/memwal-mcp login`
-2. Browser → **Connect Sui Wallet** → **Slush**
-3. Slush → **Sign in with Google** (if not already connected)
-4. Approve `add_delegate_key` on Sui Mainnet → page shows **Connected**
-5. Credentials at `~/.memwal/credentials.json` → **fully quit and reopen Cursor**
+**Repro metadata (for #27109):**
 
-**Doc gap:** [SETUP.md](./SETUP.md) now documents zkLogin vs seed-phrase unlock. Slush UX tracked in [MystenLabs/sui#27109](https://github.com/MystenLabs/sui/issues/27109).
+| Field | Value |
+|-------|--------|
+| Slush version | **26.15.0** `[release]` |
+| Account type | zkLogin (Google) — no local password ever set |
+| Wallet reset | No |
+| Consistent repro | Yes — Unlock from dApp popup before Google sign-in; workaround succeeds |
+| MemWal account ID | `0xe969b46dbf2d66b9fb6a3a0586f02b8e5a8ba42ebcc22407023953fb843984c6` |
+| dApp URL | `https://memory.walrus.xyz/connect/mcp?…` |
+
+**Doc:** [SETUP.md](./SETUP.md) · Slush UX [MystenLabs/sui#27109](https://github.com/MystenLabs/sui/issues/27109)
 
 ---
 
