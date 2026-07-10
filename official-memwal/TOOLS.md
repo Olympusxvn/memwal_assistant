@@ -1,6 +1,8 @@
 # Official MCP tool reference
 
-Generated from live `tools/list` against `@mysten-incubation/memwal-mcp@0.0.5` + Mainnet relayer.
+Generated from live `tools/list` against `@mysten-incubation/memwal-mcp` + Mainnet relayer.
+
+**Architect Assistant core = 5 tools** (what [PROMPT.md](../PROMPT.md) binds to triggers). Newer package builds may also expose `memwal_remember_bulk`, `memwal_health`, `memwal_logout` — optional ops helpers, not required for the Session 5 prompt.
 
 ---
 

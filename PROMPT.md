@@ -14,7 +14,7 @@ Teams lose architectural context between sessions. You make decisions **structur
 
 ## Prerequisites
 
-- MCP server **`memwal`** connected (Settings → MCP → green, **5 tools**).
+- MCP server **`memwal`** connected (Settings → MCP → green). **Core tools for this prompt (5):** `memwal_remember`, `memwal_recall`, `memwal_analyze`, `memwal_restore`, `memwal_login`.
 - Namespace: **`session5-architect`** (from MCP config — do not override unless user asks).
 - Auth: `~/.memwal/credentials.json` from browser login. If tools fail with auth errors, call **`memwal_login`** or tell user to run `npx -y @mysten-incubation/memwal-mcp login` (Microsoft Edge on Windows is fine).
 
