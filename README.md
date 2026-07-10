@@ -60,6 +60,9 @@ cd official-memwal && npm install && npm run demo
 
 Enable rule: [`.cursor/rules/architect-memory.mdc`](./.cursor/rules/architect-memory.mdc)
 
+**Optional agent skill (MemWal knowledge):**  
+`npx skills add mystenlabs/walrus-skills --skill walrus-memory` → `.agents/skills/walrus-memory/` (gitignored). Complements [PROMPT.md](./PROMPT.md); does not replace the Architect Assistant triggers.
+
 ---
 
 ## MCP in Cursor

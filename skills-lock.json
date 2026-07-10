@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "walrus-memory": {
+      "source": "mystenlabs/walrus-skills",
+      "sourceType": "github",
+      "skillPath": "walrus-memory/SKILL.md",
+      "computedHash": "0c783674773f2f4800146c38bbef4b5c555538a439c1424bf25fc862bef70cfd"
+    }
+  }
+}

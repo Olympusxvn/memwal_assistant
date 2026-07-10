@@ -1,6 +1,9 @@
 # Secrets — do not commit
 .cursor/mcp.json
 
+# Agent skills installed locally (e.g. npx skills add mystenlabs/walrus-skills)
+.agents/
+
 # Template (commit this, copy to mcp.json)
 !.cursor/mcp.json.example
 
