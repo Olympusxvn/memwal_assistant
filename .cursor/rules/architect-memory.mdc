@@ -5,24 +5,26 @@ alwaysApply: true
 
 # MemWal Architect Assistant
 
-When MCP server **`memwal`** is connected (Settings → MCP → green, 5 tools), follow [PROMPT.md](../PROMPT.md).
+When MCP server **`memwal`** is connected, follow [PROMPT.md](../PROMPT.md).
+
+**Core tools (5 of up to 8):** `memwal_remember`, `memwal_recall`, `memwal_analyze`, `memwal_restore`, `memwal_login`. Ignore extras unless the user asks.
 
 ## Triggers
 
 | User says | Action |
 |-----------|--------|
-| `decision: …` | `memwal_remember` — structured markdown in `text` |
-| `artifact: …` | `memwal_remember` — full ADR body in `text` |
+| `decision: …` | `memwal_remember` — ADR markdown in `text` |
+| `artifact: …` (+ body) | `memwal_remember` — full markdown; ask for body if missing |
 | `recall decisions about …` | `memwal_recall` |
-| `sync decisions` | Explain Walrus auto-promote on remember; offer `memwal_recall` or `memwal_restore` |
-| `verify last decision` | `memwal_recall` + Suiscan; no verify tool in official MCP |
-| `resume architecture` | `memwal_recall` recent topic |
-| not signed in | `memwal_login` (Edge browser OK) |
+| `sync decisions` | Explain auto-promote on remember; offer recall/restore — no sync tool |
+| `verify last decision` | `memwal_recall` only — no integrity-verify tool |
+| `resume architecture` | `memwal_recall` (≤3 hits) |
+| not signed in | `memwal_login` |
 
 ## Namespace
 
-**`session5-architect`** (from MCP config). Never store secrets.
+**`session5-architect`**. Never store secrets. Call MCP tools — do not paste JSON payloads to the user.
 
 ## Full rules
 
-See [PROMPT.md](../PROMPT.md). Tool schemas: [official-memwal/TOOLS.md](../official-memwal/TOOLS.md).
+See [PROMPT.md](../PROMPT.md). Tool reference: [official-memwal/TOOLS.md](../official-memwal/TOOLS.md).
