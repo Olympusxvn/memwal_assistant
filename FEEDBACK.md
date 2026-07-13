@@ -16,6 +16,9 @@
 | **Observability**  | [#341](https://github.com/MystenLabs/MemWal/issues/341) | Closed                    |
 | **Durable recall** | [#342](https://github.com/MystenLabs/MemWal/issues/342) | Closed                    |
 | **Slush zkLogin UX** | [#27109](https://github.com/MystenLabs/sui/issues/27109) (MystenLabs/sui) | Open — Unlock vs Google sign-in |
+| **Serverless latency docs** | [#277](https://github.com/MystenLabs/MemWal/issues/277) | Open — remember vs await / Vercel budgets |
+| **MCP Prompt Jam DX** | [#408](https://github.com/MystenLabs/MemWal/issues/408) | Open — zkLogin login, core tools, 429, recall lag |
+| **Agent job/index status** | [#409](https://github.com/MystenLabs/MemWal/issues/409) | Open — queued → Walrus → recallable |
 
 
 ---
