@@ -33,30 +33,50 @@ When working on a large codebase, important architectural decisions are forgotte
 ## Data flow
 
 ```
-User: decision: / artifact:
-    → memwal_remember (structured markdown in text)
-    → MemWal relayer (async job)
+User: decision: / debug: / artifact:
+    → memwal_remember (typed ADR markdown: ## Type + Decision + Context + …)
+    → MemWal relayer (embed + encrypt + async Walrus upload)
     → Walrus Mainnet blob
 
 User: recall decisions about …
-    → memwal_recall (semantic search)
+    → memwal_recall (semantic / vector search over embeddings)
 
 Index stale / empty recall
     → memwal_restore (re-index from Walrus blobs)
     → memwal_recall (retry)
 
-Long doc paste
-    → memwal_analyze → multiple memwal_remember jobs
+Long doc paste (explicit request)
+    → memwal_analyze → multiple Walrus-backed memories
 ```
+
+---
+
+## Phase A — Typed · Semantic · Human-gated
+
+Prompt Jam stays **MCP + one system prompt**. No client embedding pipeline, no wallet-sign UI.
+
+| Pillar | Implementation | Honest boundary |
+|--------|----------------|-----------------|
+| **Typed memory** | Required `## Type` enum in ADR markdown; `decision:` → `architecture_decision` (default); `debug:` → `debug_trace` | Convention in text — not a new on-chain schema |
+| **Semantic recall** | Document + instruct: `memwal_recall` = MemWal relayer embeddings / vector search | Do not reimplement OpenAI embeddings in this repo |
+| **Human-gated durability** | Remember only on explicit triggers; confirm “queued for Walrus” (async) | No integrity-verify tool; no claim of wallet-signed ADRs |
+
+### Memory type enum
+
+- `architecture_decision`
+- `tech_stack_convention`
+- `resolved_bottleneck`
+- `debug_trace`
 
 ---
 
 ## Prompt design choices
 
-- **Triggers** — natural language prefixes (`decision:`, `artifact:`) map 1:1 to tools.
-- **Structured markdown** — `## Decision`, `## Context`, `## Rationale` for readable ADRs and better recall.
-- **No sync verb** — official MCP promotes on remember; prompt explains legacy `sync decisions` requests.
+- **Triggers** — `decision:`, `debug:`, `artifact:` map to `memwal_remember`; recall/restore/analyze/login unchanged.
+- **Structured typed markdown** — `## Type`, `## Decision`, `## Context`, `## Rationale` for readable ADRs and better semantic hits.
+- **No sync verb** — official MCP promotes on remember; prompt explains `sync decisions` without inventing a tool.
 - **Cross-session** — `resume architecture` → `memwal_recall` in new chat.
+- **5 core of ≤8 tools** — extras optional; no invented triggers.
 
 ---
 
@@ -85,7 +105,7 @@ Long doc paste
 
 - Community `@memwalpp/mcp` (10-tool sync/verify stack) — replaced by official MCP for Session 5.
 - Optional MCP extras (`memwal_remember_bulk`, `memwal_health`, `memwal_logout`) — not part of the Architect Assistant **5-tool core**.
-- NFT / marketplace / on-chain lineage tools.
+- Client-side embedding SDKs, wallet-sign ADR UI, NFT / marketplace / on-chain lineage tools.
 
 ---
 

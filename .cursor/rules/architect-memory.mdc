@@ -13,17 +13,24 @@ When MCP server **`memwal`** is connected, follow [PROMPT.md](../PROMPT.md).
 
 | User says | Action |
 |-----------|--------|
-| `decision: …` | `memwal_remember` — ADR markdown in `text` |
-| `artifact: …` (+ body) | `memwal_remember` — full markdown; ask for body if missing |
-| `recall decisions about …` | `memwal_recall` |
+| `decision: …` | `memwal_remember` — typed ADR (`architecture_decision` default) |
+| `debug: …` | `memwal_remember` — typed ADR (`debug_trace` default) |
+| `artifact: …` (+ body) | `memwal_remember` — full markdown + `## Type`; ask for body if missing |
+| `recall decisions about …` | `memwal_recall` (semantic search; prefer matching `## Type`) |
 | `sync decisions` | Explain auto-promote on remember; offer recall/restore — no sync tool |
-| `verify last decision` | `memwal_recall` only — no integrity-verify tool |
+| `verify last decision` | `memwal_recall` only — no integrity-verify / wallet-sign tool |
 | `resume architecture` | `memwal_recall` (≤3 hits) |
 | not signed in | `memwal_login` |
 
-## Namespace
+## Typed memory (`## Type`)
 
-**`session5-architect`**. Never store secrets. Call MCP tools — do not paste JSON payloads to the user.
+`architecture_decision` · `tech_stack_convention` · `resolved_bottleneck` · `debug_trace`
+
+## Rules
+
+- **Human-gated:** never auto-remember without an explicit trigger.
+- **Namespace:** `session5-architect`. Never store secrets.
+- Call MCP tools — do not paste JSON payloads to the user.
 
 ## Full rules
 

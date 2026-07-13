@@ -97,14 +97,25 @@ cd official-memwal && npm install && npm run demo
 
 **#1 pain of AI coding:** agents forget everything when the chat ends.
 
-MemWal Architect Assistant gives developers **verifiable, cross-session, on-chain memory for architecture** — simple trigger words, official Mysten MCP, 10+ real Mainnet blobs, full setup & demo included. Built for long-term projects.
+MemWal Architect Assistant gives developers **typed, cross-session, Walrus-durable memory for architecture** — simple trigger words, official Mysten MCP, 10+ real Mainnet blobs, full setup & demo included. Built for long-term projects.
 
 | Pain | Without this | With MemWal Architect Assistant |
 |:-----|:-------------|:--------------------------------|
 | Lost ADRs | Decisions die in chat history | `decision:` → durable Walrus blob |
-| New session amnesia | Re-explain the stack every time | `recall decisions about X` / `resume architecture` |
-| Fragile local notes | `.md` files are human-only, siloed | Agent-queryable memory via `memwal_recall` |
-| Unverifiable claims | “We decided X” with no proof | Mainnet blob IDs + Walruscan links |
+| Mixed design vs debug noise | One blob of chat noise | **Typed memory** (`## Type`) separates ADRs from debug traces |
+| New session amnesia | Re-explain the stack every time | Semantic `memwal_recall` / `resume architecture` |
+| Fragile local notes | `.md` files are human-only, siloed | Agent-queryable memory via MemWal embeddings |
+| Unverifiable “we decided X” | No durable trail | **Human-gated** triggers + Mainnet blob IDs (Walruscan) — not a crypto-verify API |
+
+### Three pillars (Prompt Jam · MCP)
+
+| Pillar | What we do | What we do **not** invent |
+|:-------|:-----------|:--------------------------|
+| **Typed memory** | ADR markdown with `## Type` (`architecture_decision`, `tech_stack_convention`, `resolved_bottleneck`, `debug_trace`) | Custom on-chain schema / JSON-only agent chat |
+| **Semantic recall** | `memwal_recall` — MemWal relayer **embeddings + vector search** | Client-side OpenAI embedding pipelines |
+| **Human-gated durability** | Only `decision:` / `debug:` / `artifact:` / explicit analyze → `memwal_remember` → Walrus queue | Auto-save agent opinions; fake “wallet-signed ADR” without a product UI |
+
+Details: [docs/DESIGN.md](./docs/DESIGN.md#phase-a--typed-semantic-human-gated).
 
 ### Local Markdown vs Walrus
 
@@ -120,11 +131,11 @@ MemWal Architect Assistant gives developers **verifiable, cross-session, on-chai
 
 ## 🏗️ How it works
 
-1. **Capture** — type `decision: …` or `artifact: …` → agent calls **`memwal_remember`** with structured ADR markdown.
+1. **Capture** — type `decision: …`, `debug: …`, or `artifact: …` → agent calls **`memwal_remember`** with **typed** ADR markdown (`## Type`).
 2. **Durable by default** — MemWal relayer queues a **Walrus Mainnet** blob (async; no separate sync tool).
-3. **Recall** — in any new chat, say `recall decisions about X` or `resume architecture` → **`memwal_recall`**.
+3. **Semantic recall** — in any new chat, say `recall decisions about X` or `resume architecture` → **`memwal_recall`** (vector search over embeddings — not a full-doc dump).
 4. **Recover** — **`memwal_restore`** re-indexes the namespace from Walrus if recall is empty.
-5. **Bulk extract** — **`memwal_analyze`** pulls multiple ADRs from long design docs.
+5. **Bulk extract** — **`memwal_analyze`** pulls multiple ADRs from long design docs (still human-requested).
 
 ```mermaid
 flowchart LR
@@ -165,6 +176,7 @@ Then paste [PROMPT.md](./PROMPT.md) (or enable the Cursor rule) and try:
 
 ```
 decision: Use Repository Pattern for all data access. Context: backend/. Rationale: Testability and separation from business logic.
+debug: Empty recall after remember fixed by waiting ~15s then memwal_restore. Context: mcp. Rationale: Index lag is not data loss.
 recall decisions about Repository Pattern
 ```
 
