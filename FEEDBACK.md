@@ -19,6 +19,9 @@
 | **Serverless latency docs** | [#277](https://github.com/MystenLabs/MemWal/issues/277) | Open — remember vs await / Vercel budgets |
 | **MCP Prompt Jam DX** | [#408](https://github.com/MystenLabs/MemWal/issues/408) | Open — zkLogin login, core tools, 429, recall lag |
 | **Agent job/index status** | [#409](https://github.com/MystenLabs/MemWal/issues/409) | Open — queued → Walrus → recallable |
+| **Local write cache (indexer lag)** | [#433](https://github.com/MystenLabs/MemWal/issues/433) | Open — optimistic same-session recall buffer |
+| **Native memory types / tags** | [#434](https://github.com/MystenLabs/MemWal/issues/434) | Open — metadata beyond raw text |
+| **Write-path dry-run / secrets** | [#435](https://github.com/MystenLabs/MemWal/issues/435) | Open — client validate before relayer (link #425) |
 
 
 ---
@@ -223,5 +226,5 @@ New ideas (agent-native ADRs, namespace isolation, durable cross-session memory)
 - MCP: [https://www.npmjs.com/package/@mysten-incubation/memwal-mcp](https://www.npmjs.com/package/@mysten-incubation/memwal-mcp)
 - Submission: [SUBMISSION.md](./SUBMISSION.md)
 - Changelog: [CHANGELOG.md](./CHANGELOG.md)
-- Prompt Jam tickets: [sui#27109](https://github.com/MystenLabs/sui/issues/27109) · [MemWal#277](https://github.com/MystenLabs/MemWal/issues/277) · [MemWal#408](https://github.com/MystenLabs/MemWal/issues/408) · [MemWal#409](https://github.com/MystenLabs/MemWal/issues/409)
+- Prompt Jam tickets: [sui#27109](https://github.com/MystenLabs/sui/issues/27109) · [MemWal#277](https://github.com/MystenLabs/MemWal/issues/277) · [MemWal#408](https://github.com/MystenLabs/MemWal/issues/408) · [MemWal#409](https://github.com/MystenLabs/MemWal/issues/409) · [MemWal#433](https://github.com/MystenLabs/MemWal/issues/433) · [MemWal#434](https://github.com/MystenLabs/MemWal/issues/434) · [MemWal#435](https://github.com/MystenLabs/MemWal/issues/435)
 
