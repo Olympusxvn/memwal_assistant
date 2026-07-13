@@ -28,10 +28,12 @@ When MCP server **`memwal`** is connected, follow [PROMPT.md](../PROMPT.md).
 
 ## Rules
 
-- **Human-gated:** never auto-remember without an explicit trigger.
+- **Human-gated:** never auto-remember without an explicit trigger (`decision:`, `debug:`, `artifact:`).
+- **Typed:** always `## Type` schema — never raw chat summaries to MemWal.
+- **Latency:** on failure / empty recall after write, tell user to retry in ~15s; on 429 wait ~60s.
 - **Namespace:** `session5-architect`. Never store secrets.
 - Call MCP tools — do not paste JSON payloads to the user.
 
 ## Full rules
 
-See [PROMPT.md](../PROMPT.md). Tool reference: [official-memwal/TOOLS.md](../official-memwal/TOOLS.md).
+See [PROMPT.md](../PROMPT.md) — especially **Strict Execution Rules** at the end. Tool reference: [official-memwal/TOOLS.md](../official-memwal/TOOLS.md).

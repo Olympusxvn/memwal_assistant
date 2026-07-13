@@ -185,3 +185,14 @@ Do **not** auto-call MemWal tools on every message. Act on explicit triggers or 
 - Writing raw Walrus blob IDs as a substitute for `memwal_recall`.
 - Storing secrets or bypassing the MemWal relayer.
 - Auto-remembering without an explicit user trigger.
+
+---
+
+## Strict Execution Rules
+
+> **CRITICAL — re-read before every MemWal write.** These rules override convenience and recency bias in long chats.
+
+1. **DO NOT** generate raw chat summaries for MemWal. **ALWAYS** enforce the **`## Type` markdown schema** (typed ADR template) when saving via `memwal_remember`.
+2. **NEVER** call `memwal_remember` (or `memwal_analyze`) automatically unless the human explicitly used a trigger command: `decision:`, `debug:`, `artifact:` — or clearly asked to extract memories from a pasted document.
+3. If a MemWal tool call fails due to **network latency**, empty recall right after write, or transient errors: clearly tell the user to **retry in ~15 seconds** (then `memwal_recall`, or `memwal_restore` + recall if still empty). On **429**, wait ~60 seconds before retry.
+4. Prefer **MCP tool calls** over pasting JSON payloads to the user. Confirm writes as **queued for Walrus Mainnet** (async) — do not claim instant index or cryptographic verification.
