@@ -183,10 +183,45 @@ Design choices:
 
 
 
+## Session Feedback (Prompt Jam form)
+
+The Walrus Sessions / Prompt Jam format was **genuinely useful**. It forced a full loop—problem → prompt → official MCP → Mainnet proof—instead of a slide-only narrative. That produced concrete lessons: how **zkLogin vs Unlock** breaks onboarding, why **`remember` is async**, how **429 / rate limits** show up in agent demos, and why **recall lag** is not “lost memory.”
+
+### What worked
+
+- A clear mandate: ship something **on Walrus Memory Mainnet** with a **single strong system prompt**.
+- The **official `@mysten-incubation/memwal-mcp`** path (login → remember → recall → restore) matches how Cursor agents actually work.
+- Community + Mysten feedback channels (Discord, GitHub, X) made issues like Slush zkLogin and serverless `rememberAndWait` **actionable**, not just complaints.
+- Companion material (`walrus-skills` / `walrus-memory`) accelerated understanding of the relayer, namespaces, and tool surface.
+
+### What didn’t / friction
+
+- Wallet onboarding for **Google zkLogin** users still feels like folklore (Unlock vs Sign in with Google).
+- Docs lagged the **8-tool MCP** surface vs “core 5” agent prompts.
+- Demo scripts that burst many `memwal_remember` calls hit **429** without a first-class agent playbook.
+- “Queued for Walrus” vs “recallable in index” is still hard to show judges without better **layer status**.
+
+### What could be improved next session
+
+1. A **first-hour checklist**: zkLogin login → MCP green → one remember → one recall → optional restore.
+2. Explicit **rate-limit + async** guidance in MCP quickstarts.
+3. A simple **job/index status** story for demos (queued → durable → searchable).
+4. Keep the **Prompt Jam** constraint (one prompt, real Mainnet use)—it raised quality more than open-ended hacks.
+5. More **office hours** on wallet/MCP auth; that was the tallest gate for us.
+
+### Net
+
+New ideas (agent-native ADRs, namespace isolation, durable cross-session memory) and new discipline (no secrets in repo, structure before store, Walrus as source of truth). We’d join again—especially if login and layer visibility get as polished as remember/recall.
+
+**Short form (~500 chars):** Very useful sessions—new lessons on official MemWal MCP, async Walrus promote, zkLogin login friction, 429 batch writes, and recall lag. What worked: Prompt Jam’s “one prompt + Mainnet proof” bar and actionable GitHub feedback. What to improve: first-hour zkLogin/MCP checklist, rate-limit docs, and clearer queued→indexed status for demos. Strong ideas for agent-native ADRs; we’d return.
+
+---
+
 ## Links
 
 - Repo: [memwal_assistant](https://github.com/Olympusxvn/memwal_assistant)
 - MCP: [https://www.npmjs.com/package/@mysten-incubation/memwal-mcp](https://www.npmjs.com/package/@mysten-incubation/memwal-mcp)
 - Submission: [SUBMISSION.md](./SUBMISSION.md)
 - Changelog: [CHANGELOG.md](./CHANGELOG.md)
+- Prompt Jam tickets: [sui#27109](https://github.com/MystenLabs/sui/issues/27109) · [MemWal#277](https://github.com/MystenLabs/MemWal/issues/277) · [MemWal#408](https://github.com/MystenLabs/MemWal/issues/408) · [MemWal#409](https://github.com/MystenLabs/MemWal/issues/409)
 
