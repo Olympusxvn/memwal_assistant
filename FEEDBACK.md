@@ -22,6 +22,8 @@
 | **Local write cache (indexer lag)** | [#433](https://github.com/MystenLabs/MemWal/issues/433) | Open — optimistic same-session recall buffer |
 | **Native memory types / tags** | [#434](https://github.com/MystenLabs/MemWal/issues/434) | Open — metadata beyond raw text |
 | **Write-path dry-run / secrets** | [#435](https://github.com/MystenLabs/MemWal/issues/435) | Open — client validate before relayer (link #425) |
+| **Per-blob forget / supersede** | [#444](https://github.com/MystenLabs/MemWal/issues/444) | Open — **commented** (Prompt Jam evidence); do **not** open a duplicate delete issue |
+| **Soft-delete / un-recallable** | [#258](https://github.com/MystenLabs/MemWal/issues/258) | Open — Mysten: soft-delete tombstone + SDK/MCP `forget` (WALM-115); Session 4 +1 already posted |
 
 
 ---

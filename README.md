@@ -103,13 +103,14 @@ To ensure a rigorous, production-grade assessment for Walrus Session 5 (Prompt J
 | **3. Web3 Network Resilience** | Native prompt instructions to handle HTTP 429 Rate Limits and 15s Indexer Lag seamlessly. | **Passed** |
 | **4. Zero-Dependency Native UX** | 100% native execution within the LLM loop across Cursor, Claude Code, and Antigravity 2.0. **No external CLI script wrappers required.** | **Passed** |
 | **5. Live Mainnet Verification** | Verified with **11 active blobs** on Walrus Mainnet (Account: `0xe969…84c6`). | **Passed** |
-| **6. Ecosystem & DX Contribution** | Contributed 3 high-impact architectural proposals to the official `@mysten-incubation/memwal` repository. | **Passed** |
+| **6. Ecosystem & DX Contribution** | Filed #433–#435; contributed Prompt Jam evidence on existing [#444](https://github.com/MystenLabs/MemWal/issues/444) (per-blob forget) instead of duplicate delete issues. | **Passed** |
 
 ### 💡 Upstream Ecosystem Feedback (MystenLabs/MemWal)
-During the development of this prompt framework, we identified several developer experience (DX) gaps regarding real-time Agent synchronization and submitted 3 core feature requests to the official repository:
-*   [#433](https://github.com): Proposed Local State Buffer / Optimistic Recall to eliminate 15s indexer lag.
-*   [#434](https://github.com): Proposed Native Metadata Tags for deterministic schema-level memory filtering.
-*   [#435](https://github.com): Proposed Client-Side Validation Mode to prevent critical secret/credential leaks.
+During the development of this prompt framework, we identified DX gaps and contributed upstream without spamming duplicate threads:
+*   [#433](https://github.com/MystenLabs/MemWal/issues/433) — Local write cache / optimistic same-session recall (indexer lag).
+*   [#434](https://github.com/MystenLabs/MemWal/issues/434) — Native memory types / tags for deterministic filtering.
+*   [#435](https://github.com/MystenLabs/MemWal/issues/435) — Client-side dry-run / secret validation before relayer.
+*   [#444](https://github.com/MystenLabs/MemWal/issues/444) — **Comment only:** MCP `memwal_forget` / per-blob supersede (docs delete exist; MCP gap). Related soft-delete track: [#258](https://github.com/MystenLabs/MemWal/issues/258).
 
 ---
 
