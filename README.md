@@ -169,56 +169,6 @@ flowchart LR
   MCP --> Recall[memwal_recall]
   Recall --> User
 ```
-graph TD
-    %% Định nghĩa phong cách giao diện
-    classDef user fill:#2ecc71,stroke:#27ae60,stroke-width:2px,color:#fff;
-    classDef agent fill:#3498db,stroke:#2980b9,stroke-width:2px,color:#fff;
-    classDef security fill:#e74c3c,stroke:#c0392b,stroke-width:2px,color:#fff;
-    classDef blockchain fill:#9b59b6,stroke:#8e44ad,stroke-width:2px,color:#fff;
-
-    %% Luồng hội thoại bắt đầu
-    Start([💻 User Input in Chat]) --> Guard{🧠 Security Gate}
-    class Start user;
-
-    %% Trạm kiểm soát Bảo mật (Core Rule #1)
-    Guard -->|Contains .env / Private Key| Leak[🛑 Block & Warn User]
-    class Guard,Leak security;
-    
-    %% Phân nhánh luồng xử lý của Prompt
-    Guard -->|Safe Context| Trigger{🔍 Check Trigger Command}
-    class Trigger agent;
-
-    %% LUỒNG 1: GHI NHỚ (REMEMBER)
-    Trigger -->|'decision:' / 'debug:' / 'artifact:'| EnforceSchema[🗂️ Typed Memory Schema]
-    EnforceSchema -->|Enforce ADR Template| ConfirmWrite{👤 Human Confirmation}
-    ConfirmWrite -->|Approve| CallRemember[⚙️ Call memwal_remember]
-    CallRemember --> SyncLag{⏳ Walrus Indexer Lag}
-    SyncLag -->|Wait 15s| Mainnet1[(🌐 Walrus Mainnet)]
-    class EnforceSchema,ConfirmWrite,CallRemember,SyncLag agent;
-    class Mainnet1 blockchain;
-
-    %% LUỒNG 2: TRUY XUẤT (RECALL)
-    Trigger -->|'resume architecture' / 'recall...'| CallRecall[⚙️ Call memwal_recall]
-    CallRecall -->|Semantic Vector Search| Mainnet2[(🌐 Walrus Mainnet)]
-    Mainnet2 -->|Fetch Max 3 Hits| ContextRestored[🧠 Context Restored to LLM]
-    class CallRecall,ContextRestored agent;
-    class Mainnet2 blockchain;
-
-    %% LUỒNG 3: VÒNG ĐỜI / XÓA (LIFECYCLE)
-    Trigger -->|'forget:' / 'override'| CallRecallID[⚙️ Call recall for ID]
-    CallRecallID --> Preview[👁️ Preview Old Memory to Human]
-    Preview --> ConfirmDelete{👤 Approve Surgical Delete?}
-    ConfirmDelete -->|Yes| CallDelete[🛑 Queue Deletion Async]
-    CallDelete --> CleanStore[(🧼 Pure Clean Vector Store)]
-    class CallRecallID,Preview,ConfirmDelete,CallDelete agent;
-    class CleanStore blockchain;
-
-    %% XỬ LÝ LỖI MẠNG WEB3
-    CallRemember -.->|HTTP 429| RateLimit[⏳ Backoff 60s & Retry Once]
-    CallRecall -.->|Empty Result| RetryRestore[⚙️ Call memwal_restore]
-    class RateLimit,RetryRestore security;
-
----
 | Layer | Responsibility |
 |:------|:---------------|
 | **🖥️ Experience** | Cursor + [PROMPT.md](./PROMPT.md) + [`.cursor/rules/architect-memory.mdc`](./.cursor/rules/architect-memory.mdc) |
