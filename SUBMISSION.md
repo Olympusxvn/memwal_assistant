@@ -13,7 +13,7 @@ To ensure a rigorous, production-grade assessment for Session 5 (Prompt Jam), th
 - [x] **Network Resilience**: Does the agent gracefully handle Walrus Indexer Lag (15s synchronization window) and HTTP 429 Rate Limits? (Yes, via `## Strict Execution Rules`)
 - [x] **Zero-Dependency UX**: Is the execution 100% native within the LLM conversation loop without spawning external Node.js CLI script wrappers? (Yes, fully integrated inside the MCP context)
 - [x] **Security Guardrails**: Does the prompt proactively audit and block Secret/Private Key leaks before hitting the public Walrus network? (Yes, via Core Rule #1)
-- [x] **Ecosystem Contribution**: Has the team delivered production value to MystenLabs? (Yes, with 11 Mainnet Blobs and 3 high-impact GitHub DX issues: #433, #434, #435)
+- [x] **Ecosystem Contribution**: Has the team delivered production value to MystenLabs? (Yes — 11 Mainnet blobs; filed #433–#435; Prompt Jam evidence on existing [#444](https://github.com/MystenLabs/MemWal/issues/444) instead of duplicate delete issues)
 
 ---
 ## Problem statement (submit — 2 sentences)
