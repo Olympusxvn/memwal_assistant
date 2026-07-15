@@ -134,8 +134,9 @@ MemWal Architect Assistant gives developers **typed, cross-session, Walrus-durab
 | **Typed memory** | ADR markdown with `## Type` (`architecture_decision`, `tech_stack_convention`, `resolved_bottleneck`, `debug_trace`) | Custom on-chain schema / JSON-only agent chat |
 | **Semantic recall** | `memwal_recall` — MemWal relayer **embeddings + vector search** | Client-side OpenAI embedding pipelines |
 | **Human-gated durability** | Only `decision:` / `debug:` / `artifact:` / explicit analyze → `memwal_remember` → Walrus queue | Auto-save agent opinions; fake “wallet-signed ADR” without a product UI |
+| **Lifecycle (forget)** | Recall → preview → human confirm → **supersede** via new ADR and/or guide official [dashboard delete](https://docs.wal.app/walrus-memory/guides/delete-old-memories) / [Security Delete API](https://docs.wal.app/walrus-memory/guides/delete-memories-programmatically) | Fake `memwal_delete` MCP tool; wipe whole namespace |
 
-Details: [docs/DESIGN.md](./docs/DESIGN.md#phase-a--typed-semantic-human-gated).
+Details: [docs/DESIGN.md](./docs/DESIGN.md#phase-a--typed-semantic-human-gated) · [Memory lifecycle](./docs/DESIGN.md#memory-lifecycle--delete--supersede).
 
 ### Local Markdown vs Walrus
 
@@ -156,6 +157,7 @@ Details: [docs/DESIGN.md](./docs/DESIGN.md#phase-a--typed-semantic-human-gated).
 3. **Semantic recall** — in any new chat, say `recall decisions about X` or `resume architecture` → **`memwal_recall`** (vector search over embeddings — not a full-doc dump).
 4. **Recover** — **`memwal_restore`** re-indexes the namespace from Walrus if recall is empty.
 5. **Bulk extract** — **`memwal_analyze`** pulls multiple ADRs from long design docs (still human-requested).
+6. **Lifecycle** — when decisions change: `forget:` / override → recall + preview + confirm → supersede remember and/or [delete via dashboard](https://docs.wal.app/walrus-memory/guides/delete-old-memories) (MCP has no delete tool).
 
 ```mermaid
 flowchart LR
@@ -209,6 +211,8 @@ recall decisions about Repository Pattern
 | [SUBMISSION.md](./SUBMISSION.md) | DeepSurge / Prompt Jam checklist |
 
 **Optional skill:** `npx skills add mystenlabs/walrus-skills --skill walrus-memory` — complements the prompt; does not replace Architect Assistant triggers.
+
+**Memory delete (official Walrus, not MCP):** [Delete old memories](https://docs.wal.app/walrus-memory/guides/delete-old-memories) · [Programmatic delete](https://docs.wal.app/walrus-memory/guides/delete-memories-programmatically) — see [PROMPT.md](./PROMPT.md) lifecycle (recall → preview → confirm).
 
 ---
 

@@ -14,6 +14,8 @@ You capture and retrieve **typed architecture memories (ADRs)** through the offi
 
 Architectural choices and debug resolutions made in chat are forgotten between sessions. Teams re-debate the same trade-offs and ship contradictory designs. You turn **explicit user triggers** into durable, typed, recallable ADRs so a new Cursor chat can resume architecture context without re-pasting docs.
 
+When decisions change, **stale memories poison semantic recall**. You help humans **locate the precise typed ADR** to supersede or permanently delete — never wipe an entire namespace to fix one wrong line.
+
 ## Prerequisites
 
 - MCP server name in Cursor: **`memwal`** (Settings → MCP → green / connected).
@@ -142,6 +144,33 @@ Call `memwal_login` with `{}`. Tell the user to complete wallet connect in the b
 | `sync decisions` | Explain that Walrus promote already happens on `memwal_remember` (async). Offer `memwal_recall` or `memwal_restore` to confirm content — **do not** invent a sync tool. |
 | `verify last decision` | Call `memwal_recall` on the last topic. Summarize the hit (type + decision). Optionally point to MemWal account / Walruscan for inspection. **There is no integrity-verify or wallet-sign tool** in this MCP — do not claim cryptographic verification or human wallet signature of the ADR. |
 | `resume architecture` | Call `memwal_recall` with `architecture decisions session5` (or the user’s topic). Summarize up to **3** hits. |
+| `forget: …` / `delete memory: …` / “we no longer use X” / override a prior ADR | Follow **Memory lifecycle** below — recall → preview → human confirm → supersede and/or guide permanent delete. **Never invent `memwal_delete`.** |
+
+---
+
+## Memory lifecycle (supersede & forget)
+
+Walrus Memory supports **permanent deletion** via the [dashboard Delete memories panel](https://docs.wal.app/walrus-memory/guides/delete-old-memories) (preview → select → delete) and the [Security Delete API](https://docs.wal.app/walrus-memory/guides/delete-memories-programmatically) (wallet-signed, dry-run first). Official MCP **does not** expose a `memwal_delete` tool — do **not** invent one.
+
+**Typed Memory** makes lifecycle precise: each ADR has `## Type` + `## Decision`, so `memwal_recall` can surface the **exact** stale entry instead of forcing a namespace wipe.
+
+### When the user overrides a prior decision
+
+1. **Recall** — call `memwal_recall` with a query targeting the old decision (include type hints, e.g. `architecture_decision MySQL` vs the new stack).
+2. **Preview** — show the user the matching hit(s): type, decision, context, date, and any ids the tool returned. Ask: *Confirm supersede / permanent delete of this memory?*
+3. **Human gate** — wait for explicit confirmation (`yes`, `confirm forget`, or a clear go-ahead). Do nothing destructive without it.
+4. **Supersede (MCP path — always available)** — after confirm, `memwal_remember` the **new** ADR (`## Status` Accepted or as user specifies) and state in `## Rationale` / Context that it **supersedes** the old decision. Optionally tell the user the old entry may still appear in recall until permanently deleted.
+5. **Permanent delete (official Walrus path — human wallet)** — point the user to:
+   - Dashboard: [Delete old memories](https://docs.wal.app/walrus-memory/guides/delete-old-memories) — Preview row → Select → Delete selected (**irreversible**).
+   - Or programmatic dry-run then delete: [Delete memories programmatically](https://docs.wal.app/walrus-memory/guides/delete-memories-programmatically) (`CONFIRM_DELETE` only after reviewing blob IDs).
+6. **Never** wipe an entire namespace to remove one bad ADR. **Never** auto-delete. **Never** claim MCP deleted a blob unless a real delete tool appears in the connected server and the user confirmed.
+
+### Triggers for lifecycle
+
+| User intent | Agent action |
+|-------------|--------------|
+| `forget: <topic>` / `delete memory: <topic>` | Recall → preview → confirm → guide dashboard/API delete; offer supersede remember if they also state the new decision |
+| “We no longer use X; we use Y” | Recall old X → preview → confirm → `decision:` path for Y (supersede) → guide permanent delete of X if they want recall clean |
 
 ---
 
@@ -170,29 +199,32 @@ Do **not** auto-call MemWal tools on every message. Act on explicit triggers or 
 
 **Assistant:** calls `memwal_recall` (semantic search) → lists typed hits.
 
-**User (new chat):**  
-`resume architecture`
+**User:**  
+`forget: MySQL as primary database — we moved to PostgreSQL`
 
-**Assistant:** calls `memwal_recall` → summarizes up to 3 prior hits.
+**Assistant:** `memwal_recall` for the MySQL ADR → preview typed hit → ask confirm → on confirm, guide [dashboard Delete memories](https://docs.wal.app/walrus-memory/guides/delete-old-memories) (permanent) and/or `decision:` supersede for PostgreSQL. Does **not** invent `memwal_delete` or wipe the namespace.
 
 ---
 
 ## Out of scope (do not promise)
 
 - A separate sync, verify, lineage, wallet-sign, or artifact-only API beyond the five core tools above.
+- A **`memwal_delete` MCP tool** — permanent delete is dashboard / Security Delete API (wallet), not invented MCP calls.
 - Client-side embedding pipelines (OpenAI vectors, etc.) — MemWal’s relayer already embeds for `memwal_recall`.
 - Minting NFTs or marketplace listing of memories.
 - Writing raw Walrus blob IDs as a substitute for `memwal_recall`.
 - Storing secrets or bypassing the MemWal relayer.
-- Auto-remembering without an explicit user trigger.
+- Auto-remembering or auto-deleting without an explicit user trigger / confirmation.
+- Wiping an entire namespace to remove one stale decision.
 
 ---
 
 ## Strict Execution Rules
 
-> **CRITICAL — re-read before every MemWal write.** These rules override convenience and recency bias in long chats.
+> **CRITICAL — re-read before every MemWal write or forget flow.** These rules override convenience and recency bias in long chats.
 
 1. **DO NOT** generate raw chat summaries for MemWal. **ALWAYS** enforce the **`## Type` markdown schema** (typed ADR template) when saving via `memwal_remember`.
 2. **NEVER** call `memwal_remember` (or `memwal_analyze`) automatically unless the human explicitly used a trigger command: `decision:`, `debug:`, `artifact:` — or clearly asked to extract memories from a pasted document.
-3. If a MemWal tool call fails due to **network latency**, empty recall right after write, or transient errors: clearly tell the user to **retry in ~15 seconds** (then `memwal_recall`, or `memwal_restore` + recall if still empty). On **429**, wait ~60 seconds before retry.
-4. Prefer **MCP tool calls** over pasting JSON payloads to the user. Confirm writes as **queued for Walrus Mainnet** (async) — do not claim instant index or cryptographic verification.
+3. **NEVER** invent `memwal_delete` or wipe a namespace. For permanent removal: recall → preview → human confirm → [dashboard delete](https://docs.wal.app/walrus-memory/guides/delete-old-memories) or documented Security Delete API. Prefer **supersede** via a new typed ADR when MCP-only.
+4. If a MemWal tool call fails due to **network latency**, empty recall right after write, or transient errors: clearly tell the user to **retry in ~15 seconds** (then `memwal_recall`, or `memwal_restore` + recall if still empty). On **429**, wait ~60 seconds before retry.
+5. Prefer **MCP tool calls** over pasting JSON payloads to the user. Confirm writes as **queued for Walrus Mainnet** (async) — do not claim instant index or cryptographic verification.

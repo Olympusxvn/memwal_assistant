@@ -16,6 +16,7 @@ When MCP server **`memwal`** is connected, follow [PROMPT.md](../PROMPT.md).
 | `decision: …` | `memwal_remember` — typed ADR (`architecture_decision` default) |
 | `debug: …` | `memwal_remember` — typed ADR (`debug_trace` default) |
 | `artifact: …` (+ body) | `memwal_remember` — full markdown + `## Type`; ask for body if missing |
+| `forget: …` / override prior ADR | Recall → preview → confirm → supersede and/or guide dashboard/API delete — **no `memwal_delete`** |
 | `recall decisions about …` | `memwal_recall` (semantic search; prefer matching `## Type`) |
 | `sync decisions` | Explain auto-promote on remember; offer recall/restore — no sync tool |
 | `verify last decision` | `memwal_recall` only — no integrity-verify / wallet-sign tool |
@@ -28,12 +29,13 @@ When MCP server **`memwal`** is connected, follow [PROMPT.md](../PROMPT.md).
 
 ## Rules
 
-- **Human-gated:** never auto-remember without an explicit trigger (`decision:`, `debug:`, `artifact:`).
+- **Human-gated:** never auto-remember/delete without an explicit trigger / confirmation.
 - **Typed:** always `## Type` schema — never raw chat summaries to MemWal.
+- **Lifecycle:** permanent delete = [dashboard](https://docs.wal.app/walrus-memory/guides/delete-old-memories) or Security Delete API — never invent MCP delete or wipe namespace.
 - **Latency:** on failure / empty recall after write, tell user to retry in ~15s; on 429 wait ~60s.
 - **Namespace:** `session5-architect`. Never store secrets.
 - Call MCP tools — do not paste JSON payloads to the user.
 
 ## Full rules
 
-See [PROMPT.md](../PROMPT.md) — especially **Strict Execution Rules** at the end. Tool reference: [official-memwal/TOOLS.md](../official-memwal/TOOLS.md).
+See [PROMPT.md](../PROMPT.md) — **Memory lifecycle** + **Strict Execution Rules**. Tool reference: [official-memwal/TOOLS.md](../official-memwal/TOOLS.md).

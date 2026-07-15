@@ -70,11 +70,29 @@ Prompt Jam stays **MCP + one system prompt**. No client embedding pipeline, no w
 
 ---
 
+## Memory lifecycle — delete & supersede
+
+Official Walrus Memory docs (2026): [Delete old memories](https://docs.wal.app/walrus-memory/guides/delete-old-memories) (dashboard preview → permanent delete) and [Delete programmatically](https://docs.wal.app/walrus-memory/guides/delete-memories-programmatically) (Security Delete API, wallet-signed, dry-run first).
+
+| Pain | Raw / untyped memory | memwal_assistant |
+|------|----------------------|------------------|
+| Stale ADR poisons recall | Semantic search resurfaces MySQL after you moved to Postgres | Typed `## Type` + topic recall finds the **exact** ADR to forget |
+| “Delete that decision” | Agent cannot locate a sentence inside a blob soup → temptation to **wipe namespace** | **Surgical target:** preview the typed hit, then human deletes via dashboard/API |
+| Irreversible delete | Accidental bulk wipe | **Human-gated:** confirm → dashboard Preview → Delete selected; MCP never auto-deletes |
+| MCP gap | Hope for a delete tool that does not exist | Honest prompt: **no `memwal_delete`**; supersede via new ADR + guide official delete |
+
+**Judge message:** Walrus delete is valuable for resource cleanup and anti–semantic-drift — but only if the agent knows **what** to delete. Typed Memory turns Prompt Jam agents into a **precise purge orchestrator** (recall → preview → confirm → dashboard/API), not a namespace-format hammer.
+
+**Prompt Jam path (MCP-native):** supersede with a new `decision:` (Status Accepted, rationale notes supersession).  
+**Durable purge path (official):** human wallet on dashboard or Security Delete API.
+
+---
+
 ## Prompt design choices
 
-- **Triggers** — `decision:`, `debug:`, `artifact:` map to `memwal_remember`; recall/restore/analyze/login unchanged.
+- **Triggers** — `decision:`, `debug:`, `artifact:`, `forget:` / override phrases map to remember/recall + lifecycle guidance.
 - **Structured typed markdown** — `## Type`, `## Decision`, `## Context`, `## Rationale` for readable ADRs and better semantic hits.
-- **No sync verb** — official MCP promotes on remember; prompt explains `sync decisions` without inventing a tool.
+- **No sync / delete MCP verbs** — promote on remember; permanent delete via Walrus docs, not invented tools.
 - **Cross-session** — `resume architecture` → `memwal_recall` in new chat.
 - **5 core of ≤8 tools** — extras optional; no invented triggers.
 
@@ -105,6 +123,7 @@ Prompt Jam stays **MCP + one system prompt**. No client embedding pipeline, no w
 
 - Community `@memwalpp/mcp` (10-tool sync/verify stack) — replaced by official MCP for Session 5.
 - Optional MCP extras (`memwal_remember_bulk`, `memwal_health`, `memwal_logout`) — not part of the Architect Assistant **5-tool core**.
+- Invented `memwal_delete` — use [dashboard](https://docs.wal.app/walrus-memory/guides/delete-old-memories) / [Security Delete API](https://docs.wal.app/walrus-memory/guides/delete-memories-programmatically).
 - Client-side embedding SDKs, wallet-sign ADR UI, NFT / marketplace / on-chain lineage tools.
 
 ---

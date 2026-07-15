@@ -26,9 +26,9 @@ When working on a large codebase, important architectural decisions are forgotte
 
 ## How it uses Walrus Memory (submit — 2–5 sentences)
 
-The system prompt binds user triggers (`decision:`, `debug:`, `artifact:`, `recall decisions about …`) to official MCP tools: `memwal_remember` writes **typed** ADR markdown (`## Type` + Decision/Context/Rationale) and the MemWal relayer queues **Walrus Mainnet** blobs (async) while embedding for semantic search. `memwal_recall` retrieves by meaning (not a full-doc dump); `memwal_restore` re-indexes when needed; `memwal_analyze` extracts from long docs — always **human-gated**, never auto-saved. Namespace `session5-architect` isolates Session 5 blobs. Full prompt: [PROMPT.md](./PROMPT.md).
+The system prompt binds user triggers (`decision:`, `debug:`, `artifact:`, `forget:`, `recall decisions about …`) to official MCP tools: `memwal_remember` writes **typed** ADR markdown (`## Type` + Decision/Context/Rationale) and the MemWal relayer queues **Walrus Mainnet** blobs (async) while embedding for semantic search. `memwal_recall` retrieves by meaning; when decisions change, the agent **previews** the exact typed hit and guides **human-gated** permanent delete via the official [dashboard](https://docs.wal.app/walrus-memory/guides/delete-old-memories) / [Security Delete API](https://docs.wal.app/walrus-memory/guides/delete-memories-programmatically) (MCP has no delete tool) or supersedes with a new ADR — never namespace wipe. Namespace `session5-architect` isolates Session 5 blobs. Full prompt: [PROMPT.md](./PROMPT.md).
 
-Unlike local ADR `.md` files (human-oriented, session-siloed), MemWal ADRs are agent-queryable across chats. Comparison: [docs/DESIGN.md](./docs/DESIGN.md#local-markdown-vs-walrus-memwal) · Phase A: [typed · semantic · human-gated](./docs/DESIGN.md#phase-a--typed-semantic-human-gated).
+Unlike local ADR `.md` files (human-oriented, session-siloed), MemWal ADRs are agent-queryable across chats. Comparison: [docs/DESIGN.md](./docs/DESIGN.md#local-markdown-vs-walrus-memwal) · Phase A: [typed · semantic · human-gated](./docs/DESIGN.md#phase-a--typed-semantic-human-gated) · [Lifecycle](./docs/DESIGN.md#memory-lifecycle--delete--supersede).
 
 **Core tools (5):** `memwal_remember`, `memwal_recall`, `memwal_analyze`, `memwal_restore`, `memwal_login`.
 
