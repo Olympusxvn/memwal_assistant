@@ -49,6 +49,7 @@ recall decisions about X  →  memwal_recall  →  context restored
 | ⚖️ | [For judges](#-for-judges--5-min-verify) |
 | 💡 | [Why it matters](#-why-it-matters) |
 | 🏗️ | [How it works](#️-how-it-works) |
+| 🗺️ | [Memory lifecycle flow](#️-memory-lifecycle--security-flow) |
 | ⚡ | [Quick start](#-quick-start) |
 | 🔌 | [MCP in Cursor](#-mcp-in-cursor) |
 | 📊 | [Mainnet proof](#-mainnet-proof) |
@@ -159,6 +160,21 @@ Details: [docs/DESIGN.md](./docs/DESIGN.md#phase-a--typed-semantic-human-gated) 
 4. **Recover** — **`memwal_restore`** re-indexes the namespace from Walrus if recall is empty.
 5. **Bulk extract** — **`memwal_analyze`** pulls multiple ADRs from long design docs (still human-requested).
 6. **Lifecycle** — when decisions change: `forget:` / override → recall + preview + confirm → supersede remember and/or [delete via dashboard](https://docs.wal.app/walrus-memory/guides/delete-old-memories) (MCP has no delete tool).
+
+### 🗺️ Memory lifecycle & security flow
+
+<div align="center">
+
+![memwal_assistant memory lifecycle — security gate, typed remember, semantic recall, human-gated forget](./docs/images/memory-lifecycle-flow.png)
+
+</div>
+
+| Branch | Trigger | What happens |
+|:-------|:--------|:-------------|
+| **Security** | Any chat input | Block `.env` / private keys before Walrus |
+| **Create** | `decision:` / `debug:` / `artifact:` | Typed ADR → human confirm → `memwal_remember` → Walrus Mainnet (wait ~15s on indexer lag; backoff ~60s on HTTP 429) |
+| **Recall** | `resume architecture` / `recall…` | `memwal_recall` (≤3 hits) → empty → `memwal_restore` |
+| **Forget** | `forget:` / override | Recall ID → preview → human confirm → **supersede** and/or official [dashboard](https://docs.wal.app/walrus-memory/guides/delete-old-memories) / [Security Delete API](https://docs.wal.app/walrus-memory/guides/delete-memories-programmatically) (no `memwal_delete` MCP tool yet — see [#444](https://github.com/MystenLabs/MemWal/issues/444)) |
 
 ```mermaid
 flowchart LR
@@ -278,7 +294,9 @@ memwal_assistant/
 ├── .cursor/
 │   ├── mcp.json.example
 │   └── rules/architect-memory.mdc
-├── docs/DESIGN.md
+├── docs/
+│   ├── DESIGN.md
+│   └── images/memory-lifecycle-flow.png
 └── scripts/
     ├── blob-log.official-mcp.md
     └── blob-log.template.md
