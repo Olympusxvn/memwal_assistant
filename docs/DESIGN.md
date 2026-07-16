@@ -9,6 +9,17 @@ Session 5 Prompt Jam · Walrus Memory · official MCP.
 Ship a **submit-ready** thin repo: one well-crafted system prompt + setup + Mainnet demo using **`@mysten-incubation/memwal-mcp@0.0.5`**.
 
 ---
+## 🧠 AI Memory Framework Mapping
+
+Our architecture directly maps to the 6 core dimensions of advanced AI Cognitive Memory:
+1. **Short-Term Memory**: Managed via Cursor's context loop, protected against Recency Bias by strict system overrides.
+2. **Long-Term Memory**: Fully decentralized and immutable, powered by Walrus Mainnet storage blobs.
+3. **Semantic Memory**: Implemented via Typed Memory (ADR Schemas) for tech stack conventions and design systems.
+4. **Episodic Memory**: Captured through `debug_trace` commands to lock down history-specific problem resolutions.
+5. **Memory Retrieval**: Semantic vector search calling `memwal_recall`, capped at 3 high-relevance hits for cost/token efficiency.
+6. **Memory Optimization**: Surgical ID-based deletion adhering to the latest Walrus `delete-old-memories` lifecycle guide.
+
+---
 
 ## Stack
 
