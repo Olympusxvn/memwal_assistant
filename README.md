@@ -93,6 +93,18 @@ cd official-memwal && npm install && npm run demo
 | **👤 MemWal account** | [`0xe969…84c6`](https://suiscan.xyz/mainnet/object/0xe969b46dbf2d66b9fb6a3a0586f02b8e5a8ba42ebcc22407023953fb843984c6) |
 
 ---
+## 🧠 Cognitive AI Memory Mapping
+
+`memwal_assistant` implements a **6-Tier Cognitive Memory Architecture** natively mapped to the @WalrusProtocol storage layer:
+
+*   **1. Short-Term Memory (Context Window):** Defends against LLM *Recency Bias* in long chats via localized, hard-coded runtime rules (`## Strict Execution Rules`).
+*   **2. Long-Term Memory (Decentralized Durability):** Powered by immutable **Walrus Mainnet Blobs**—making your project architecture context truly mobile and portable.
+*   **3. Semantic Memory (Structured Facts):** Driven by our **Typed Memory (ADR)** engine. It locks down strict engineering conventions (`tech_stack_convention`), filtering out 100% of raw chat noise.
+*   **4. Episodic Memory (Experience Trails):** Captured via `debug_trace` to permanently log system incident resolutions, preventing agents from repeating past coding errors.
+*   **5. Memory Retrieval (Semantic Recall):** Uses `memwal_recall` for semantic vector search, optimized with an *On-Demand* trigger capping at 3 high-relevance hits to save tokens.
+*   **6. Memory Optimization (Lifecycle & Deletion):** Strict compliance with the latest Walrus `delete-old-memories` specification. Executes **Surgical ID-Based Deletions** with human validation, preventing *Semantic Drift* without wiping entire namespaces.
+
+---
 ## ⚖️ Technical Evaluation Matrix (For Judges)
 
 To ensure a rigorous, production-grade assessment for Walrus Session 5 (Prompt Jam), this repository was architected and evaluated against strict technical benchmarks. We encourage judges to evaluate all entries using this framework:
